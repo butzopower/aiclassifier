@@ -23,14 +23,13 @@ class Util
   end
 
   def self.pre_process(rows)
-    rows.transpose.each do |row| # transpose the table to make the columns into rows
-      case row.first             # check the form of the first element in the column
-      when /^\d+\.\d+$/          # if it's a real number
-        row.map!(&:to_f)         #    convert every element in the column to a float
-      when /^\d+$/               # if it's a integer
-        row.map!(&:to_i)         #    map every element in the column to an int
-      end                        # otherwise do nothing
-    end.transpose                # transpose back
+    rows.transpose.each do |row|         # transpose the table to make the columns into rows
+      if row.all?{|x| x=~ /^\d+\.\d+$/ } # if all of them are real numbers 
+        row.map!(&:to_f)                 #   convert every element in the column to a float
+      elsif row.all?{|x| x=~ /^\d+$/ }   # if all of them are integers 
+        row.map!(&:to_i)                 #    map every element in the column to an int
+      end                                # otherwise do nothing
+    end.transpose                        # transpose back
   end
 
 end
