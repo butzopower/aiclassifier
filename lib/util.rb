@@ -17,7 +17,7 @@ class Util
     # grab all the rows excluding the first, since it might be the column names
     # ( we can afford this since are most likely working with larger data sets )
     # shuffle around the data we have and grab the first n rows
-    rows = rows[1..-1].shuffle.first(n)
+    rows = rows[1..-1].sort_by{rand}.first(n)
 
     pre_process ? self.pre_process(rows) : rows # ruby returns the last evaluation of a method
   end
