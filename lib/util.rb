@@ -25,7 +25,7 @@ class Util
   def self.pre_process(rows)
     rows.transpose.each do |row|         # transpose the table to make the columns into rows
       if row.all?{|x| x=~ /^\d+\.\d+$/ } # if all of them are real numbers 
-        row.map!(&:to_f)                 #   convert every element in the column to a float
+        row.map!{|x| (x.to_i + 5) / 10 }      #   convert every element in the column to a float
       elsif row.all?{|x| x=~ /^\d+$/ }   # if all of them are integers 
         row.map!(&:to_i)                 #    map every element in the column to an int
       end                                # otherwise do nothing

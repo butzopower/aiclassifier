@@ -10,7 +10,7 @@ class NaiveBayes
     # for each unique class, set the key in @classes for that class to an array
     # of empty hashes (with default values of 1 for the psuedocount)
     # the number of hashes in the array is equal to the number of elements in a row
-    classes.uniq.each { |c| @classes[c] = Array.new(rows.first.size){ Hash.new(1) }}
+    classes.uniq.each { |c| @classes[c] = Array.new(rows.first.size){ Hash.new(0) }}
 
     rows.each_with_index do |row, row_num| 
       row.each_with_index do |elem, elem_num|
