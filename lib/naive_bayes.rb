@@ -1,8 +1,6 @@
 class NaiveBayes
   require 'rubygems'
-  require 'ruby-debug'
-  require 'lib/util'
-  # need to make continuous variables discrete
+
   def train(rows, classes)
     @classes = Hash.new
     raise 'rows and classes need to be the same size' unless rows.size == classes.size
