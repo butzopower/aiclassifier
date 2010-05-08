@@ -1,0 +1,75 @@
+====================
+[k Nearest Neighbor]
+====================
+
+The structure of the k Nearest Neighbor classifier is based on the kNN of the
+bioPython project (http://github.com/biopython/biopython). There exists a KNN
+class, which can be instantiated to result in a KNN object. A training and
+classifying method can then be called on this object.
+
+The training method of the KNN class does two things.  It stores the rows and
+classes without modifiying them, and then calculates the sums of the
+probabilities of a categorical value belonging to a class as detailed at:
+  http://horicky.blogspot.com/2009/05/machine-learning-nearest-neighbor.html.
+
+The classify method iterates over every row from the training data and compares
+it to the row that it is trying to classify.  This comparision is done over each
+element in the row, and depending on the type of data, one of two things is
+done.  In the case of non-categorical variables, the data of the classifying row
+is subtracted from the data of the current row.  For categorical variables, the
+summed probabilities from the training set are used, with the value of the
+category of the classifying row being subtracted from the value of the category
+in the iterating row.  Once this is done for every element, these values are dot
+producted with themselves, and then square-rooted to determine the Euclidean
+distance of the current row from the classifying row.  Once this distance has
+been computed for all the rows in the training data, the k (default 10) shortest 
+distances are picked, with each distance associated with a class. The class then 
+gets weighted based on the inverse of the distance.  In the case of 0 distance,
+ie. the row we are classifying exists in the training set, the weight becomes
+infinite and so that class will automatically win.  Otherwise, the class with
+the highest weight is picked.
+
+The classifier seems fairly accurate.  It does slightly worse than the naive
+bayes classifer for the tic-tac-toe dataset, whose columns are essentially
+entirely dependent on another.  The range of probabilities is a bit wider, with
+some outliers being up to 84% accurate.
+
+The less dependent vehicles dataset faired much better for this classifier, it
+guessing correctly roughly 9 out of 10 times for a fairly probable class.  This
+is about a third better than the same dataset classified with naive bayes.
+
+Something not expressed in the reports is the diminishing success of the kNN
+classifier as the amount of training data goes down.  In my testing, if the
+training set was comprised of 1000 rows, the success was only about 44%, though
+there was also less rows that were attempted to be classified (maintaining the
+80/20 split).  Doubling the training set gave around 66%.  Doubling again is
+where the classifier started getting around the 90% range.
+
+====================
+[REPORT DESCRIPTION]
+====================
+
+For the tic-tac-toe dataset, 500 rows were picked at random.  The classifier was trained on
+the first 400 (80%) rows, and tested on the remaining 100 (20%). This was then repeated 100
+times to get the 100 success rates within the report. 
+
+For the vehicle dataset, 5000 rows were picked at random.  The classifier would then train on
+the first 4000 (80%) rows, and would select rows matching the tested class out of the remaining
+1000 (20%).  The tested class was "12FDEW6", which average between 75 and 100 rows to classify per
+test.  This took significantly longer than the tic-tac-toe dataset, and so this was repeated 
+instead 20 times to generate the 20 success rates within the report.
+
+=======
+[USAGE]
+=======
+
+To try the tests out yourself use the following rake commands:
+
+  rake knn:tictactoe			    # runs one test against the tictactoe dataset
+  rake knn:vehicles 			    # runs one test against the vehicles dataset
+
+  rake knn:tictactoe100fold	  # runs 100 tests against the tictactoe dataset and
+                                gives the min, max, and mean of those tests
+
+  rake knn:vehicles20fold		  # runs 20 tests against the vehicles dataset and
+                                gives the min, max, and mean of those tests

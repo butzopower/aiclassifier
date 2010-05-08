@@ -43,10 +43,11 @@ instead 20 times to generate the 20 success rates within the report.
 
 To try the tests out yourself use the following rake commands:
 
-rake nb:tictactoe			# runs one test against the tictactoe dataset
-rake nb:vehicles 			# runs one test against the vehicles dataset
+	rake nb:tictactoe			# runs one test against the tictactoe dataset
+	rake nb:vehicles 			# runs one test against the vehicles dataset
 
-rake nb:tictactoe100fold	# runs 100 tests against the tictactoe dataset and
-							  gives the min, max, and mean of those tests
-rake nb:vehicles20fold		# runs 20 tests against the vehicles dataset and
-							  gives the min, max, and mean of those tests
+	rake nb:tictactoe100fold	# runs 100 tests against the tictactoe dataset and
+								gives the min, max, and mean of those tests
+
+	rake nb:vehicles20fold		# runs 20 tests against the vehicles dataset and
+								gives the min, max, and mean of those tests
