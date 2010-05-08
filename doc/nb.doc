@@ -1,0 +1,52 @@
+=============
+[NAIVE BAYES]
+=============
+
+My Naive Bayes classifier is about as simple of an implementation as is possible.
+
+The structure of the code is based on the Biopython project 
+(http://github.com/biopython/biopython).  A single NaiveBayes class exists, which
+can be instantiated.  A NaiveBayes object, then, can have the training method called
+on it, which will make it ready to have the classify method called on it.
+
+The training method simply iterates over each column, and finds the total number for
+each attribute within that column.  Originally, I started the sum with a psuedocount of
+1, but found this to skew my data later, and so I reset it back to 0.
+
+To classify, the classifier iterates over each class, finding first the probability for
+that class, and then finding the probability of each element in the classifying row to
+be apart of that class.  The equation used is from wikipedia:
+	http://en.wikipedia.org/wiki/Naive_Bayes_classifier
+
+   	p(C) * product(i) { P(Fi | C) }
+
+After the probabilities for each class are determined, the highest one is obviously
+picked.
+
+====================
+[REPORT DESCRIPTION]
+====================
+
+For the tic-tac-toe dataset, 500 rows were picked at random.  The classifier was trained on
+the first 400 (80%) rows, and tested on the remaining 100 (20%). This was then repeated 100
+times to get the 100 success rates within the report. 
+
+For the vehicle dataset, 5000 rows were picked at random.  The classifier would then train on
+the first 4000 (80%) rows, and would select rows matching the tested class out of the remaining
+1000 (20%).  The tested class was "12FDEW6", which average between 75 and 100 rows to classify per
+test.  This took significantly longer than the tic-tac-toe dataset, and so this was repeated 
+instead 20 times to generate the 20 success rates within the report.
+
+=======
+[USAGE]
+=======
+
+To try the tests out yourself use the following rake commands:
+
+rake nb:tictactoe			# runs one test against the tictactoe dataset
+rake nb:vehicles 			# runs one test against the vehicles dataset
+
+rake nb:tictactoe100fold	# runs 100 tests against the tictactoe dataset and
+							  gives the min, max, and mean of those tests
+rake nb:vehicles20fold		# runs 20 tests against the vehicles dataset and
+							  gives the min, max, and mean of those tests
